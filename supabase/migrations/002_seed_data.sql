@@ -15,17 +15,13 @@ INSERT INTO dependencias (nombre, sede_id) VALUES
   -- Sede Administrativa
   ('Financiera',           'a1000000-0000-0000-0000-000000000001'),
   ('Recursos Humanos',     'a1000000-0000-0000-0000-000000000001'),
-  ('Logística',            'a1000000-0000-0000-0000-000000000001'),
   ('Sistemas / TI',        'a1000000-0000-0000-0000-000000000001'),
   ('Gerencia General',     'a1000000-0000-0000-0000-000000000001'),
   -- Sede Centro
   ('Farmacia',             'a1000000-0000-0000-0000-000000000002'),
-  ('Urgencias',            'a1000000-0000-0000-0000-000000000002'),
-  ('Consulta Externa',     'a1000000-0000-0000-0000-000000000002'),
   ('Laboratorio Clínico',  'a1000000-0000-0000-0000-000000000002'),
   ('Vacunación',           'a1000000-0000-0000-0000-000000000002'),
   -- Sede Norte
-  ('Almacén',              'a1000000-0000-0000-0000-000000000004'),
   ('Mantenimiento',        'a1000000-0000-0000-0000-000000000004')
 ON CONFLICT DO NOTHING;
 

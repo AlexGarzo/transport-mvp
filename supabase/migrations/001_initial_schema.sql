@@ -175,10 +175,8 @@ INSERT INTO dependencias (nombre, sede_id)
 SELECT d.nombre, s.id FROM (VALUES
   ('Financiera',       'Administrativa'),
   ('Recursos Humanos', 'Administrativa'),
-  ('Logística',        'Administrativa'),
   ('Farmacia',         'Centro'),
-  ('Urgencias',        'Centro'),
-  ('Consulta Externa', 'Centro')
+  ('Vacunación',       'Centro')
 ) AS d(nombre, sede_nombre)
 JOIN sedes s ON s.nombre = d.sede_nombre
 ON CONFLICT DO NOTHING;

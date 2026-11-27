@@ -76,7 +76,7 @@ export function LoginPage() {
               onClick={() => handleDemoLogin('conductor')}
               className="w-full py-2 px-3 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-semibold text-left flex items-center justify-between transition-colors border border-amber-200"
             >
-              <span>🚗 Entrar como Conductor</span>
+              <span>🚗 Entrar como Operador</span>
               <span className="text-2xs text-amber-600 font-normal">En campo</span>
             </button>
           </div>

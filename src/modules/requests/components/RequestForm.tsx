@@ -51,7 +51,6 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
       fecha_gestion: defaultDate,
       sede_id: '',
       dependencia_id: '',
-      origen: '',
       destino: '',
       insumos: '',
       observaciones_solicitante: ''
@@ -79,7 +78,7 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
         dependencia_id: values.dependencia_id,
         tipo: values.tipo,
         insumos: values.insumos,
-        origen: values.origen,
+        origen: sedes.find((sede) => sede.id === values.sede_id)?.nombre || 'Sede seleccionada',
         destino: values.destino,
         fecha_gestion: values.fecha_gestion,
         observaciones_solicitante: values.observaciones_solicitante,
@@ -128,7 +127,7 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
       {/* 1. Datos del Solicitante (Perfil SSO) */}
       <div className="bg-blue-50/60 rounded-xl p-4 border border-blue-100 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-blue-700">Solicitante Identificado (SSO)</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-blue-700">Solicitante</span>
           <p className="font-medium text-gray-800">
             {user?.user_metadata?.full_name || user?.email || 'Usuario Activo en Sesión'}
           </p>
@@ -142,7 +141,43 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
         </div>
       </div>
 
-      {/* 2. Sedes y Dependencias */}
+      {/* 2. Tipo de Requerimiento */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Tipo de Requerimiento *
+        </label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { id: 'TRANSPORTE_GENERAL', label: 'Transporte General', desc: 'Materiales, insumos, equipos o mensajería', icon: Package },
+            { id: 'MOVILIZACION_PERSONAL', label: 'Personal / Pasajeros', desc: 'Traslado institucional de colaboradores', icon: Users },
+            { id: 'CARGA_BIOLOGICA', label: 'Carga Biológica', desc: 'Vacunación y cadena de frío estricta', icon: Thermometer },
+            { id: 'DEVOLUCION_ACTIVOS', label: 'Activos', desc: 'Equipos o bienes por ingreso o retiro de personal', icon: FileText },
+          ].map(({ id, label, desc, icon: Icon }) => (
+            <label
+              key={id}
+              className={`relative flex flex-col p-4 border rounded-xl cursor-pointer transition-all ${
+                selectedTipo === id
+                  ? 'border-blue-600 bg-blue-50/50 ring-2 ring-blue-600/20'
+                  : 'border-gray-200 hover:border-gray-300 bg-white'
+              }`}
+            >
+              <input
+                type="radio"
+                value={id}
+                {...register('tipo')}
+                className="sr-only"
+              />
+              <div className="flex items-center gap-2 font-semibold text-sm text-gray-900 mb-1">
+                <Icon className={`w-4 h-4 ${selectedTipo === id ? 'text-blue-600' : 'text-gray-500'}`} />
+                {label}
+              </div>
+              <p className="text-xs text-gray-500 line-clamp-2">{desc}</p>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Sedes y Dependencias */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -163,7 +198,9 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
                 <option disabled>Cargando sedes parametrizadas...</option>
               ) : (
                 sedes.map((s) => (
-                  <option key={s.id} value={s.id}>{s.nombre}</option>
+                  <option key={s.id} value={s.id} translate="no">
+                    {s.nombre.trim().toLowerCase() === 'espacio' ? 'Spazio' : s.nombre}
+                  </option>
                 ))
               )}
             </select>
@@ -196,42 +233,6 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
               <AlertCircle className="w-3 h-3" /> {errors.dependencia_id.message}
             </p>
           )}
-        </div>
-      </div>
-
-      {/* 3. Selector de Categoría / Tipo de Solicitud */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Tipo de Requerimiento *
-        </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {[
-            { id: 'TRANSPORTE_GENERAL', label: 'Transporte General', desc: 'Materiales, insumos, equipos o mensajería', icon: Package },
-            { id: 'MOVILIZACION_PERSONAL', label: 'Personal / Pasajeros', desc: 'Traslado institucional de colaboradores', icon: Users },
-            { id: 'CARGA_BIOLOGICA', label: 'Carga Biológica', desc: 'Vacunación y cadena de frío estricta', icon: Thermometer },
-            { id: 'DEVOLUCION_ACTIVOS', label: 'Devolución Activos', desc: 'Equipos o bienes por retiro de personal', icon: FileText },
-          ].map(({ id, label, desc, icon: Icon }) => (
-            <label
-              key={id}
-              className={`relative flex flex-col p-4 border rounded-xl cursor-pointer transition-all ${
-                selectedTipo === id 
-                  ? 'border-blue-600 bg-blue-50/50 ring-2 ring-blue-600/20' 
-                  : 'border-gray-200 hover:border-gray-300 bg-white'
-              }`}
-            >
-              <input
-                type="radio"
-                value={id}
-                {...register('tipo')}
-                className="sr-only"
-              />
-              <div className="flex items-center gap-2 font-semibold text-sm text-gray-900 mb-1">
-                <Icon className={`w-4 h-4 ${selectedTipo === id ? 'text-blue-600' : 'text-gray-500'}`} />
-                {label}
-              </div>
-              <p className="text-xs text-gray-500 line-clamp-2">{desc}</p>
-            </label>
-          ))}
         </div>
       </div>
 
@@ -362,24 +363,8 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
         </div>
       )}
 
-      {/* 5. Origen, Destino y Fecha */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Punto de Origen *
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Dirección o Sede inicial"
-              {...register('origen')}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          {errors.origen && <p className="text-xs text-red-500 mt-1">{errors.origen.message}</p>}
-        </div>
-
+      {/* 5. Destino y Fecha */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
             Punto de Destino *
@@ -432,7 +417,7 @@ export function RequestForm({ onSuccess, onCancel }: RequestFormProps) {
           </label>
           <textarea
             rows={3}
-            placeholder="Instrucciones para el conductor, contactos de entrega, accesos especiales..."
+            placeholder="Instrucciones para el operador, contactos de entrega, accesos especiales..."
             {...register('observaciones_solicitante')}
             className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />

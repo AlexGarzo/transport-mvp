@@ -79,7 +79,7 @@ export function DriverPage() {
                 <Car className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">Portal del Conductor</h1>
+                <h1 className="text-xl font-bold">Portal del Operador</h1>
                 <p className="text-xs text-blue-100">Rutas activas y confirmación en campo</p>
               </div>
             </div>
@@ -181,7 +181,7 @@ export function DriverPage() {
                     </div>
                   )}
 
-                  {/* Notas Operativas de Logística para el Conductor */}
+                  {/* Notas Operativas de Logística para el Operador */}
                   {sol.notas_logistica && (
                     <div className="p-3 bg-gray-50 rounded-xl border border-gray-200 text-xs">
                       <span className="font-bold text-gray-700 block mb-0.5">Indicaciones de Logística:</span>

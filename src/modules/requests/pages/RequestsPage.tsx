@@ -17,7 +17,6 @@ import { TIPO_LABELS, getPrioridadColor } from '@/shared/utils/prioridad'
 import type { EstadoSolicitud, Solicitud } from '@/shared/types/domain.types'
 
 export function RequestsPage() {
-  const [showForm, setShowForm] = useState(false)
   const [selectedTicket, setSelectedTicket] = useState<Solicitud | null>(null)
   const { solicitudes, loading } = useMisSolicitudes()
 
@@ -54,6 +53,7 @@ export function RequestsPage() {
           </span>
         )
     }
+
   }
 
   return (
@@ -72,34 +72,16 @@ export function RequestsPage() {
           </div>
           
           <button
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => window.location.assign('/nueva-solicitud')}
             className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-sm font-medium transition-all shadow-sm"
           >
-            {showForm ? 'Volver a la lista' : (
-              <>
-                <Plus className="w-4 h-4" />
-                Nueva Solicitud
-              </>
-            )}
+            <Plus className="w-4 h-4" />
+            Nueva Solicitud
           </button>
         </div>
 
-        {/* Formulario (visible cuando showForm = true) */}
-        {showForm ? (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-800">
-                Formulario Unificado de Solicitud (Lógica Condicional)
-              </h2>
-            </div>
-            <RequestForm
-              onSuccess={() => setShowForm(false)}
-              onCancel={() => setShowForm(false)}
-            />
-          </div>
-        ) : (
-          /* Lista de Solicitudes */
-          <div className="space-y-4">
+        {/* Lista de Solicitudes */}
+        <div className="space-y-4">
             {loading ? (
               <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center text-gray-500">
                 <Truck className="w-8 h-8 text-blue-500 animate-bounce mx-auto mb-2" />
@@ -115,7 +97,7 @@ export function RequestsPage() {
                   Crea tu primer requerimiento de transporte institucional haciendo clic en el botón de arriba.
                 </p>
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={() => window.location.assign('/nueva-solicitud')}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4" />
@@ -182,7 +164,6 @@ export function RequestsPage() {
               </div>
             )}
           </div>
-        )}
 
         {/* Modal de Detalle de Solicitud */}
         {selectedTicket && (
@@ -280,6 +261,33 @@ export function RequestsPage() {
             </div>
           </div>
         )}
+      </div>
+    </AppLayout>
+  )
+}
+
+export function NewRequestPage() {
+  const returnToList = () => window.location.assign('/solicitudes')
+
+  return (
+    <AppLayout>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between pb-2 border-b border-gray-200">
+          <h1 className="text-lg font-semibold text-gray-800">
+            Formulario Unificado de Solicitud
+          </h1>
+          <button
+            type="button"
+            onClick={returnToList}
+            className="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Volver a la lista
+          </button>
+        </div>
+        <RequestForm
+          onSuccess={returnToList}
+          onCancel={returnToList}
+        />
       </div>
     </AppLayout>
   )

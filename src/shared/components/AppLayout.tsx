@@ -42,7 +42,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   Transporte Corporativo
                 </span>
                 <span className="text-2xs text-blue-600 font-semibold tracking-wide block uppercase">
-                  MVP v1.0 • Gestión & Despacho
+                  Gestión & Despacho V1
                 </span>
               </div>
             </div>
@@ -93,7 +93,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                     role === 'conductor' ? 'bg-white text-amber-600 shadow-xs' : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
-                  Conductor
+                  Operador
                 </button>
               </div>
 
@@ -126,7 +126,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
       {/* Footer */}
       <footer className="bg-white border-t border-gray-100 py-3 text-center text-xs text-gray-400">
-        Sistema de Transporte Corporativo — Especificación MVP v1.0
+        Sistema de Transporte Corporativo — Gestión & Despacho V1
       </footer>
     </div>
   )

@@ -10,7 +10,6 @@ export const requestSchema = z.object({
     'DEVOLUCION_ACTIVOS',
   ] as const),
   insumos: z.string().optional(),
-  origen: z.string().min(3, 'Indica el origen (mín. 3 caracteres)'),
   destino: z.string().min(3, 'Indica el destino (mín. 3 caracteres)'),
   fecha_gestion: z.string().min(1, 'Selecciona la fecha de gestión'),
   observaciones_solicitante: z.string().optional(),

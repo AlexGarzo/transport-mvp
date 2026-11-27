@@ -84,7 +84,7 @@ export function ProtectedRoute({ roles }: ProtectedRouteProps) {
                 }}
                 className="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors"
               >
-                Conductor
+                Operador
               </button>
             </div>
           </div>

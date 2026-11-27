@@ -19,7 +19,13 @@ export function useSedes() {
         if (error || !data || data.length === 0) {
           setSedes(DEFAULT_SEDES)
         } else {
-          setSedes(data)
+          setSedes(
+            data.map((sede) =>
+              sede.nombre.trim().toLowerCase() === 'espacio'
+                ? { ...sede, nombre: 'Spazio' }
+                : sede
+            )
+          )
         }
       } catch {
         setSedes(DEFAULT_SEDES)

@@ -49,5 +49,5 @@ export const TIPO_LABELS: Record<TipoSolicitud, string> = {
   TRANSPORTE_GENERAL: '📦 Transporte General',
   MOVILIZACION_PERSONAL: '👥 Movilización de Personal',
   CARGA_BIOLOGICA: '🧊 Carga Biológica / Vacunación',
-  DEVOLUCION_ACTIVOS: '🔄 Devolución de Activos',
+  DEVOLUCION_ACTIVOS: '🔄 Activos',
 }

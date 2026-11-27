@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from '@/shared/components/ProtectedRoute'
 import { LoginPage } from '@/modules/auth/pages/LoginPage'
-import { RequestsPage } from '@/modules/requests/pages/RequestsPage'
+import { NewRequestPage, RequestsPage } from '@/modules/requests/pages/RequestsPage'
 import { CoordinationPage } from '@/modules/coordination/pages/CoordinationPage'
 import { DriverPage } from '@/modules/driver/pages/DriverPage'
 
@@ -18,6 +18,14 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute roles={['solicitante', 'admin', 'coordinador', 'conductor']} />,
     children: [
       { index: true, element: <RequestsPage /> },
+    ],
+  },
+
+  {
+    path: '/nueva-solicitud',
+    element: <ProtectedRoute roles={['solicitante', 'admin', 'coordinador', 'conductor']} />,
+    children: [
+      { index: true, element: <NewRequestPage /> },
     ],
   },
 

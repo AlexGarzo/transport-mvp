@@ -15,23 +15,31 @@ export const DEFAULT_SEDES: Sede[] = [
   { id: 'sede-13', nombre: 'Otra', activa: true, created_at: new Date().toISOString() },
 ].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
 
-export const DEFAULT_DEPENDENCIAS: Dependencia[] = [
-  // Sede Administrativa
-  { id: 'dep-1', nombre: 'Financiera', sede_id: 'sede-1', activa: true },
-  { id: 'dep-2', nombre: 'Recursos Humanos', sede_id: 'sede-1', activa: true },
-  { id: 'dep-3', nombre: 'Logística', sede_id: 'sede-1', activa: true },
-  { id: 'dep-4', nombre: 'Sistemas / TI', sede_id: 'sede-1', activa: true },
-  { id: 'dep-5', nombre: 'Gerencia General', sede_id: 'sede-1', activa: true },
-  // Sede Centro
-  { id: 'dep-6', nombre: 'Farmacia', sede_id: 'sede-2', activa: true },
-  { id: 'dep-7', nombre: 'Urgencias', sede_id: 'sede-2', activa: true },
-  { id: 'dep-8', nombre: 'Consulta Externa', sede_id: 'sede-2', activa: true },
-  { id: 'dep-9', nombre: 'Laboratorio Clínico', sede_id: 'sede-2', activa: true },
-  { id: 'dep-10', nombre: 'Vacunación', sede_id: 'sede-2', activa: true },
-  // Sede Norte
-  { id: 'dep-13', nombre: 'Almacén General', sede_id: 'sede-4', activa: true },
-  { id: 'dep-14', nombre: 'Mantenimiento', sede_id: 'sede-4', activa: true },
+const DEPENDENCIA_NAMES = [
+  'Farmacia',
+  'Financiera',
+  'Gerencia General',
+  'Laboratorio Clínico',
+  'Mantenimiento',
+  'Recursos Humanos',
+  'Sistemas / TI',
+  'Vacunación',
 ]
+
+export const DEFAULT_DEPENDENCIAS: Dependencia[] = DEFAULT_SEDES.flatMap((sede, sedeIndex) =>
+  DEPENDENCIA_NAMES.map((nombre, dependenciaIndex) => ({
+    id: `dep-${sedeIndex * DEPENDENCIA_NAMES.length + dependenciaIndex + 1}`,
+    nombre,
+    sede_id: sede.id,
+    activa: true,
+  }))
+)
+
+export function getMockDependenciaId(sedeId: string, nombre: string): string {
+  return DEFAULT_DEPENDENCIAS.find(
+    (dependencia) => dependencia.sede_id === sedeId && dependencia.nombre === nombre
+  )?.id || 'dep-1'
+}
 
 export const DEFAULT_VEHICULOS: Vehiculo[] = [
   { id: 'veh-1', placa: 'ABC-123', tipo: 'van', disponible: true },
@@ -49,7 +57,7 @@ export const INITIAL_SOLICITUDES: Solicitud[] = [
     solicitante_cargo: 'Jefe de Farmacia',
     solicitante_email: 'andrea.moreno@organizacion.com',
     sede_id: 'sede-2',
-    dependencia_id: 'dep-6',
+    dependencia_id: getMockDependenciaId('sede-2', 'Farmacia'),
     tipo: 'CARGA_BIOLOGICA',
     insumos: 'Termonevera con 500 dosis de Vacunas Neumococo',
     origen: 'Sede Centro - Bloque Cava Fría',
@@ -64,7 +72,9 @@ export const INITIAL_SOLICITUDES: Solicitud[] = [
     created_at: new Date(Date.now() - 3600000).toISOString(),
     updated_at: new Date(Date.now() - 3600000).toISOString(),
     sedes: DEFAULT_SEDES.find((sede) => sede.id === 'sede-2'),
-    dependencias: DEFAULT_DEPENDENCIAS[5]
+    dependencias: DEFAULT_DEPENDENCIAS.find(
+      (dependencia) => dependencia.sede_id === 'sede-2' && dependencia.nombre === 'Farmacia'
+    )
   },
   {
     id: 'sol-103',
@@ -73,7 +83,7 @@ export const INITIAL_SOLICITUDES: Solicitud[] = [
     solicitante_cargo: 'Directora Médica',
     solicitante_email: 'claudia.vargas@organizacion.com',
     sede_id: 'sede-1',
-    dependencia_id: 'dep-5',
+    dependencia_id: getMockDependenciaId('sede-1', 'Gerencia General'),
     tipo: 'MOVILIZACION_PERSONAL',
     pasajero_nombre: 'Dr. Alejandro Peña y equipo de auditores (3 personas)',
     pasajero_celular: '310 987 6543',
@@ -86,11 +96,13 @@ export const INITIAL_SOLICITUDES: Solicitud[] = [
     estado: 'EN_CAMINO',
     prioridad_sugerida: 2,
     prioridad_manual: 2,
-    notas_logistica: 'Van ABC-123 en camino. El conductor ya confirmó recogida en portería.',
+    notas_logistica: 'Van ABC-123 en camino. El operador ya confirmó recogida en portería.',
     created_at: new Date(Date.now() - 10800000).toISOString(),
     updated_at: new Date(Date.now() - 900000).toISOString(),
     sedes: DEFAULT_SEDES.find((sede) => sede.id === 'sede-1'),
-    dependencias: DEFAULT_DEPENDENCIAS[4],
+    dependencias: DEFAULT_DEPENDENCIAS.find(
+      (dependencia) => dependencia.sede_id === 'sede-1' && dependencia.nombre === 'Gerencia General'
+    ),
     vehiculos: DEFAULT_VEHICULOS[0]
   }
 ]

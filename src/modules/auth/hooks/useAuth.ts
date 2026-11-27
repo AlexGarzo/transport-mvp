@@ -26,7 +26,7 @@ const DEMO_USERS: Record<UserRole, { id: string; email: string; name: string; ca
     id: 'demo-conductor-01',
     email: 'carlos.ruiz@organizacion.com',
     name: 'Carlos Ruiz',
-    cargo: 'Conductor Asignado - Móvil 01',
+    cargo: 'Operador Asignado - Móvil 01',
   },
   admin: {
     id: 'demo-admin-01',

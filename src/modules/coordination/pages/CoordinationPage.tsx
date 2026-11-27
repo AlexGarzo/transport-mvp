@@ -405,7 +405,7 @@ export function CoordinationPage() {
                   </label>
                   <textarea
                     rows={3}
-                    placeholder="Instrucciones para el conductor, motivos de reasignación, novedades de ruta..."
+                    placeholder="Instrucciones para el operador, motivos de reasignación, novedades de ruta..."
                     value={notasLogistica}
                     onChange={(e) => setNotasLogistica(e.target.value)}
                     className="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl"
